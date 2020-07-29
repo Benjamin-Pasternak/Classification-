@@ -7,7 +7,6 @@
 # For more info, see http://inst.eecs.berkeley.edu/~cs188/sp09/pacman.html
 
 
-
 ## Constants
 DATUM_WIDTH = 0  # in pixels
 DATUM_HEIGHT = 0  # in pixels
@@ -62,6 +61,8 @@ class Datum:
         self.width = DATUM_WIDTH
         if data == None:
             data = [[' ' for i in range(DATUM_WIDTH)] for j in range(DATUM_HEIGHT)]
+        else:
+            self.data = data
         self.pixels = arrayInvert(convertToInteger(data))
 
     def getPixel(self, column, row):
@@ -108,11 +109,11 @@ def loadDataFile(filename, n, width, height):
         data = []
         for j in range(height):
             data.append(list(fin.pop()))
-        if len(data[0]) < DATUM_WIDTH - 1:
-            # we encountered end of file...
-            print
-            "Truncating at %d examples (maximum)" % i
-            break
+        # if len(data[0]) < DATUM_WIDTH - 1:
+        #     # we encountered end of file...
+        #     print
+        #     "Truncating at %d examples (maximum)" % i
+        #     break
         items.append(Datum(data, DATUM_WIDTH, DATUM_HEIGHT))
     return items
 
@@ -120,15 +121,27 @@ def loadDataFile(filename, n, width, height):
 import zipfile
 import os
 
-# issue is here
+
+
+
 def readlines(filename):
-    "Opens a file or reads it from the zip archive data.zip"
-    if (os.path.exists(filename)):
-        return [l[:-1] for l in open(filename).readlines()]
-    else:
-        print('uh oh')
-        # z = zipfile.ZipFile('data.zip')
-        # return z.read(filename).split('\n')
+  "Opens a file or reads it from the zip archive data.zip"
+  if(os.path.exists(filename)):
+    return [l[:-1] for l in open(filename).readlines()]
+  else:
+    z = zipfile.ZipFile('data.zip')
+    return z.read(filename).split('\n')
+# # issue is here
+# def readlines(filename):
+#     """Opens a file or reads it from the zip archive data.zip"""
+#
+#     if (os.path.exists(filename)):
+#         with open(filename, 'rb') as f:
+#             lines = [x.decode('utf8').strip() for x in f.readlines()]
+#             return lines[:-1]
+#     else:
+#         z = zipfile.ZipFile('data.zip')
+#         return z.read(filename).split('\n')
 
 
 def loadLabelsFile(filename, n):
@@ -142,6 +155,8 @@ def loadLabelsFile(filename, n):
             break
         labels.append(int(line))
     return labels
+
+
 
 
 def asciiGrayscaleConversionFunction(value):
@@ -179,33 +194,34 @@ def convertToInteger(data):
 
 
 # Testing
-
 def _test():
     import doctest
     doctest.testmod()  # Test the interactive sessions in function comments
-    n = 2
+    n = 1
     #  items = loadDataFile("facedata/facedatatrain", n,60,70)
     #  labels = loadLabelsFile("facedata/facedatatrainlabels", n)
     items = loadDataFile("./data/digitdata/trainingimages", n, 28, 28)
     labels = loadLabelsFile("./data/digitdata/traininglabels", n)
-    for i in range(2):
-        #print()
-        print(items[i])
-        print(items[i])
-        print(items[i].height)
-        print(items[i].width)
+    for i in range(1):
+        print(items[i].data)
+        # print(items[i].pixels)
+        # print(items[i])
+        # print(items[i].height)
+        # print(items[i].width)
         # print(dir(items[i]))
-        print(items[i].getPixels())
+        # print(items[i].getPixels())
+    for i in range(len(items[0].data)):
+        print(items[0].data[i])
 
 def arrayInvert(array):
-  """
+    """
   Inverts a matrix stored as a list of lists.
   """
-  result = [[] for i in array]
-  for outer in array:
-    for inner in range(len(outer)):
-      result[inner].append(outer[inner])
-  return result
+    result = [[] for i in array]
+    for outer in array:
+        for inner in range(len(outer)):
+            result[inner].append(outer[inner])
+    return result
 
 
 if __name__ == "__main__":
