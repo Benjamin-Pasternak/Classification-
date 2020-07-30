@@ -1,6 +1,7 @@
 import numpy as np
 from sys import exit
 import os
+from numba import njit
 
 """
 This data class can be used to house either the digit or the 
@@ -46,13 +47,43 @@ def loadDataFile(filename, n, width, height):
         #     print("Truncating at %d examples (maximum)" % i)
         #     # items.append(Data(data, DATUM_WIDTH, DATUM_HEIGHT))
         #     break
+        data = convert_data_numeric(data)
         items.append(Data(data, DATUM_WIDTH, DATUM_HEIGHT))
     return items
+
+
+# @njit
+# def convert_data_numeric(data):
+#     ret = []
+#     for i in range(28):
+#         temp = [0]
+#         for j in range(28):
+#             temp.append(ascii_to_digit(data[i][j]))
+#         ret.append(temp[1:])
+#     return ret
+
+
+def convert_data_numeric(data):
+    ret = np.arange(784).reshape((28, 28))
+    for i in range(28):
+        for j in range(28):
+            ret[i][j] = ascii_to_digit(data[i][j])
+    return ret
+
+
+def ascii_to_digit(ch):
+    if ch is ' ':
+        return 0
+    elif ch is '+':
+        return 1
+    else:
+        return 2
 
 
 
 if __name__ == "__main__":
     items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
+    #items[1].data = convert_data_numeric(items[1].data)
     for i in range(len(items[1].data)):
         print(items[1].data[i])
 
