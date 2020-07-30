@@ -18,7 +18,7 @@ class Data:
         self.width = width
         self.data = data
 
-
+# if you want the blank spaces gone: x.decode('utf8').strip()
 def read_lines(filename):
     with open(filename, 'rb') as f:
         lines = [x.decode('utf8')[:-1] for x in f.readlines()]
@@ -52,9 +52,9 @@ def loadDataFile(filename, n, width, height):
 
 
 if __name__ == "__main__":
-    items = loadDataFile("./data/digitdata/trainingimages", 1, 28, 28)
-    for i in range(len(items[0].data)):
-        print(items[0].data[i])
+    items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
+    for i in range(len(items[1].data)):
+        print(items[1].data[i])
 
 
 
