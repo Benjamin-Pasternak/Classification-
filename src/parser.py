@@ -1,7 +1,5 @@
 import numpy as np
-from sys import exit
-import os
-from numba import njit
+from Digit import sliding_pixle
 
 """
 This data class can be used to house either the digit or the 
@@ -18,6 +16,7 @@ class Data:
         self.height = height
         self.width = width
         self.data = data
+        self.lables = []
 
 # if you want the blank spaces gone: x.decode('utf8').strip()
 def read_lines(filename):
@@ -79,13 +78,30 @@ def ascii_to_digit(ch):
     else:
         return 2
 
+def loadLabelsFile(filename, n):
+    """
+    Reads n labels from a file and returns a list of integers.
+    """
+    fin = read_lines(filename)
+    labels = []
+    for line in fin[:min(n, len(fin))]:
+        if line == '':
+            break
+        labels.append(int(line))
+
+    return labels
+
 
 
 if __name__ == "__main__":
     items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
+    lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
+    ret = sliding_pixle(items[1].data)
+    print(ret)
     #items[1].data = convert_data_numeric(items[1].data)
-    for i in range(len(items[1].data)):
-        print(items[1].data[i])
+    # for i in range(len(items[1].data)):
+    #     print(items[1].data[i])
+    # print(lab)
 
 
 
