@@ -23,15 +23,21 @@ class Perceptron:
             phi = x[0:self.features]
             phi.insert(0, 1)
             label = x[-1]
+            # plabel = -1
+
+            # while True:
             f = []
             for i in range(self.label):
                 f.append(sum(p * w for p, w in zip(phi, self.weights[i])))
             plabel = f.index(max(f))
-            if plabel != label:
-                miss += 1
-                for j in range(self.features + 1):
-                    self.weights[label][j] += phi[j]
-                    self.weights[plabel][j] -= phi[j]
+            if plabel == label:
+                # break
+                continue
+            miss += 1
+            for j in range(self.features + 1):
+                self.weights[label][j] += phi[j]
+                self.weights[plabel][j] -= phi[j]
+
         print("Error", miss)
         return self.weights
 
