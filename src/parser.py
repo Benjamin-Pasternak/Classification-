@@ -96,7 +96,7 @@ def loadLabelsFile(filename, n):
 
     return labels
 
-def generate_data(n):
+def generate_datas(n):
     items = loadDataFile("./data/digitdata/trainingimages", n, 28, 28)
     lab = loadLabelsFile("./data/digitdata/traininglabels", n)
 
@@ -110,6 +110,7 @@ def generate_data(n):
     return data_for_pro
 
 
+
 if __name__ == "__main__":
     items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
     lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
@@ -120,6 +121,7 @@ if __name__ == "__main__":
         temp = sliding_pixle(items[i].data)
         temp.append(lab[i])
         data_for_pro.append(temp)
+
 
     print(data_for_pro[0])
     # ret = sliding_pixle(items[1].data)

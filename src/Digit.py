@@ -113,8 +113,8 @@ def sliding_pixle(data):
     upper_density = upperhalf / 748
     lower_density = lowerhalf / 748
 
-    return [upperhalf, lowerhalf, upper_density, lower_density, num0, num1, num2, transitions, center_upper,
-            center_lower]
+    return [upperhalf, lowerhalf, upper_density, lower_density, num0, num1, num2, transitions]#, center_upper,
+            #center_lower]
 
     # upper half
 
