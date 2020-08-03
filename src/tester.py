@@ -19,7 +19,7 @@ test_items = parser.loadDataFile("./data/digitdata/trainingimages", total_digit_
 test_lab = parser.loadLabelsFile("./data/digitdata/traininglabels", total_digit_testing)
 hit = 0
 for i in range(total_digit_testing):
-    phi = sliding_pixle(test_items[i].data)[0: -2]  # Need to take out x&y from center, otherwise ignored
+    phi = sliding_pixle(test_items[i].data)
     phi.insert(0, 1)
     f = []
     for num in range(10):
