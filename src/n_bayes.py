@@ -26,7 +26,7 @@ def data_summary(data):
 
 def sumarize_class(data):
     arr = []
-    for i in range(9):
+    for i in range(len(data)-1):
         temp = []
         for j in data:
             if j[len(j)-1] == i:
@@ -62,14 +62,37 @@ def calculate_class_probabilities(data, row):
         probs.append(data[cl][0][2]/float(total_rows))
         for j in range(len(i)):
             mu, sigma, count = i[j]
+            if sigma == 0:
+                continue
             k = probs[cl]
-            probs[cl] = k * gauss_dist(row[i], mu, sigma)
+            probs[cl] = k * gauss_dist(row[j], mu, sigma)
         cl += 1
     return probs
 
 
+# Predict the class for a given row
+def predict(summaries, row):
+    probabilities = calculate_class_probabilities(summaries, row)
+    best_label, best_prob = None, -1
+    cl = 0
+    for i in data:
+        if best_label is None or i > best_prob:
+            best_prob = i
+            best_label = i
+    return best_label
+
+
+# Naive Bayes Algorithm
+def naive_bayes(train, test):
+    summarize = sumarize_class(train)
+    predictions = list()
+    for row in test:
+        output = predict(summarize, row)
+        predictions.append(output)
+    return (predictions)
+
 if __name__ == '__main__':
-    data = generate_datas(2)
+    data = generate_datas(20)
     # data = [[3.393533211, 2.331273381, 0],
     #         [3.110073483, 1.781539638, 0],
     #         [1.343808831, 3.368360954, 0],
@@ -86,7 +109,7 @@ if __name__ == '__main__':
     dat = sumarize_class(data)
     #print(dat)
     probabilities = calculate_class_probabilities(dat, data[0])
-    # print(probabilities)
+    pred = predict(probabilities,data[0])
     # for i in range(len(data)):
     #     print(data[i])
 
