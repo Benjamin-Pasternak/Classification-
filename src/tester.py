@@ -3,13 +3,14 @@ from src import parser
 
 total_training = 5000
 
-data = parser.generate_datas(int(5000 * 0.5))
+data = parser.generate_datas(int(total_training * 0.1))
+
 train_perc = Perceptron(data, len(data[0]) - 1, 10)  # -1 to get rid of label
 train_perc.init_weights()
 for i in range(1):
     print("Running training", i)
     trained_perc = train_perc.update_w()
-    print(trained_perc)
+    # print(trained_perc)
 
 total_digit_testing = 1000
 
@@ -20,4 +21,5 @@ for i in range(total_digit_testing):
     result = train_perc.estimate_class(test_items[i])
     if result == test_lab[i]:
         hit += 1
-print("Accuracy ", hit / total_digit_testing)
+print("Accuracy", hit / total_digit_testing)
+# 0.494, 0.558, 0.684, 0.588, 0.723, 0.727, 0.636, 0.646, 0.584, 0.687
