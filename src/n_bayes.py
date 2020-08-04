@@ -94,10 +94,21 @@ def naive_bayes(train, test):
         predictions.append(output)
     return (predictions)
 
+def success_rate(preds, actual):
+    correct = 0
+    for i in range(len(preds)):
+        if preds[i]==actual[i]:
+            correct += 1
+    return (correct/len(preds))*100
+
 if __name__ == '__main__':
-    data = generate_datas(100)
-    testD = gen_test_data(10)
-    testL = gen_test_lab(10)
+    data = generate_datas(150)
+    testD = gen_test_data(150)
+    testL = gen_test_lab(150)
+    pred = naive_bayes(data, testD)
+    # print(naive_bayes(data, testD))
+    # print(testL)
+    print(success_rate(pred, testL))
 
     # data = [[3.393533211, 2.331273381, 0],
     #         [3.110073483, 1.781539638, 0],
@@ -118,8 +129,9 @@ if __name__ == '__main__':
     # pred = predict(dat, data[0])
     # print(pred)
     #print(testD)
-    print(naive_bayes(data, testD))
-    print(testL)
+
+
+
     # for i in range(len(data)):
     #     print(data[i])
 
