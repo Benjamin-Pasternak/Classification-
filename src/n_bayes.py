@@ -26,27 +26,13 @@ def data_summary(data):
 
 def sumarize_class(data):
     arr = []
-    for i in range(9):
+    for i in range(8):
         temp = []
         for j in data:
             if j[8] == i:
                 temp.append(j)
         if len(temp) != 0:
             arr.append(temp)
-
-    # arr = []
-    # temp = []
-    # i = 0
-    # curr = 0
-    # while i <= len(data):
-    #     x = data[i][8]
-    #     if data[i][8] == curr:
-    #         temp.append(data[i])
-    #         i+=1
-    #     else:
-    #         curr+=1
-    #         arr.append(temp)
-    #         temp = []
 
     print(len(arr))
     ret = []
@@ -65,17 +51,25 @@ def gauss_dist(x, mu, sigma):
 
 
 # now we can calculate the class probabilities
-def calc_probabilities()
-# def summarize_by_class(data):
-#     separated = split_data_by_class(data)
-#     summaries = dict()
-#     for class_value, rows in separated.items():
-#         summaries[class_value] = data_summary(rows)
-#     return summaries
+def calculate_class_probabilities(data, row):
+    total_rows = len(data)
+    probs = []
+    cl = 0
+    for i in data:
+        # x = data[cl]
+        # y = data[cl][0]
+        # z = data[cl][0][8]
+        probs.append(data[cl][0][2]/float(total_rows))
+        for j in range(len(i)):
+            mu, sigma, count = i[j]
+            k = probs[cl]
+            probs[cl] = k * gauss_dist(row[i], mu, sigma)
+        cl += 1
+    return probs
 
 
 if __name__ == '__main__':
-    # data = generate_datas(2)
+    data = generate_datas(2)
     # data = [[3.393533211, 2.331273381, 0],
     #         [3.110073483, 1.781539638, 0],
     #         [1.343808831, 3.368360954, 0],
@@ -86,11 +80,14 @@ if __name__ == '__main__':
     #         [9.172168622, 2.511101045, 1],
     #         [7.792783481, 3.424088941, 1],
     #         [7.939820817, 0.791637231, 1]]
-    # data = split_data_by_class(data)
-    # dat = sumarize_class(data)
+    data = split_data_by_class(data)
+    dat = sumarize_class(data)
+    print(dat)
+    probabilities = calculate_class_probabilities(dat, data[0])
+    print(probabilities)
     # for i in range(len(data)):
     #     print(data[i])
-    # print(dat)
-    print(gauss_dist(1.0, 1.0, 1.0))
-    print(gauss_dist(2.0, 1.0, 1.0))
-    print(gauss_dist(0.0, 1.0, 1.0))
+
+    # print(gauss_dist(1.0, 1.0, 1.0))
+    # print(gauss_dist(2.0, 1.0, 1.0))
+    # print(gauss_dist(0.0, 1.0, 1.0))
