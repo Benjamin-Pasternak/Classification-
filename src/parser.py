@@ -1,5 +1,5 @@
 import numpy as np
-from src.Digit import *
+from Digit import *
 
 """
 This data class can be used to house either the digit or the 

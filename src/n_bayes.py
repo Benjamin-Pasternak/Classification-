@@ -10,7 +10,7 @@ from math import exp
 
 # organizes data by class variable (or lable)
 def split_data_by_class(data):
-    return sorted(data, key=lambda x: x[8])
+    return sorted(data, key=lambda x: x[len(x)-1])
 
 
 # takes the mean and std_dev of each column and appends the
@@ -18,7 +18,7 @@ def data_summary(data):
     summary = []
     # get statistics for each column
     for i in zip(*data):
-        summary.append([stat.mean(i), stat.pstdev(i), len(i)])
+        summary.append([stat.mean(i), stat.pstdev(i), len(i)-1])
     # remove stats for class because its not useful
     del (summary[-1])
     return summary
@@ -26,15 +26,15 @@ def data_summary(data):
 
 def sumarize_class(data):
     arr = []
-    for i in range(8):
+    for i in range(9):
         temp = []
         for j in data:
-            if j[8] == i:
+            if j[len(j)-1] == i:
                 temp.append(j)
         if len(temp) != 0:
             arr.append(temp)
 
-    print(len(arr))
+    # print(arr[0])
     ret = []
     for i in arr:
         ret.append(data_summary(i))
@@ -80,11 +80,13 @@ if __name__ == '__main__':
     #         [9.172168622, 2.511101045, 1],
     #         [7.792783481, 3.424088941, 1],
     #         [7.939820817, 0.791637231, 1]]
+
+    # print(data)
     data = split_data_by_class(data)
     dat = sumarize_class(data)
-    print(dat)
+    #print(dat)
     probabilities = calculate_class_probabilities(dat, data[0])
-    print(probabilities)
+    # print(probabilities)
     # for i in range(len(data)):
     #     print(data[i])
 
