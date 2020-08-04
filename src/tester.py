@@ -17,7 +17,7 @@ test_items = parser.loadDataFile("./data/digitdata/trainingimages", total_digit_
 test_lab = parser.loadLabelsFile("./data/digitdata/traininglabels", total_digit_testing)
 hit = 0
 for i in range(total_digit_testing):
-    result = train_perc.estimate_class(test_items[i], test_lab[i])
+    result = train_perc.estimate_class(test_items[i])
     if result == test_lab[i]:
         hit += 1
 print("Accuracy ", hit / total_digit_testing)

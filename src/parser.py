@@ -1,5 +1,5 @@
 import numpy as np
-from Digit import sliding_pixle
+from src.Digit import *
 
 """
 This data class can be used to house either the digit or the 
@@ -103,7 +103,8 @@ def generate_datas(n):
     # there's probably a better way of doing this with a dataframe pandas
     data_for_pro = []
     for i in range(len(lab)):
-        temp = sliding_pixle(items[i].data)
+        # temp = sliding_pixle(items[i].data)
+        temp = easy_features(items[i].data)
         temp.append(lab[i])
         data_for_pro.append(temp)
 
@@ -118,10 +119,9 @@ if __name__ == "__main__":
     # there's probably a better way of doing this with a dataframe pandas
     data_for_pro = []
     for i in range(len(lab)):
-        temp = sliding_pixle(items[i].data)
+        temp = easy_features(items[i].data)
         temp.append(lab[i])
         data_for_pro.append(temp)
-
 
     print(data_for_pro[0])
     # ret = sliding_pixle(items[1].data)
