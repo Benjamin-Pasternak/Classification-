@@ -119,11 +119,11 @@ def elim(t):
 
 
 if __name__ == '__main__':
-    data = generate_datas(300)
-    trainL = gen_train_lab(300)
+    data = generate_datas(4999)
+    trainL = gen_train_lab(4999)
     trainL = elim(trainL)
-    testD = gen_test_data(90)
-    testL = gen_test_lab(90)
+    testD = gen_test_data(999)
+    testL = gen_test_lab(999)
     # print(trainL)
     pred = naive_bayes(data, testD, trainL)
     # print(naive_bayes(data, testD, trainL))

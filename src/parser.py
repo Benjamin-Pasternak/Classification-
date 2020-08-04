@@ -106,6 +106,7 @@ def generate_datas(n):
     for i in range(len(lab)):
         # temp = sliding_pixle(items[i].data)
         temp = easy_features(items[i].data)
+        temp.extend(other_features(items[i].data))
         temp.append(lab[i])
         data_for_pro.append(temp)
 
@@ -116,6 +117,7 @@ def gen_test_data(n):
     data_for_pro = []
     for i in range(len(items)):
         temp = easy_features(items[i].data)
+        temp.extend(other_features(items[i].data))
         data_for_pro.append(temp)
     return data_for_pro
 
