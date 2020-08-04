@@ -1,4 +1,5 @@
 from random import uniform
+from src.Digit import sliding_pixle
 
 
 class Perceptron:
@@ -40,6 +41,15 @@ class Perceptron:
 
         print("Error", miss)
         return self.weights
+
+    def estimate_class(self, test_item, test_label):
+        phi = sliding_pixle(test_item.data)
+        phi.insert(0, 1)
+        f = []
+        for num in range(10):
+            f.append(sum(p * w for p, w in zip(phi, self.weights[num])))
+        # print("Test result", f.index(max(f)), "key", test_label)
+        return f.index(max(f))
 
 
 if __name__ == "__main__":
