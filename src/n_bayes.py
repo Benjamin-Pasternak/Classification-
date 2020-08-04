@@ -120,15 +120,16 @@ def elim(t):
 
 if __name__ == '__main__':
     data = generate_datas(300)
-    testD = gen_test_data(100)
-    testL = gen_test_lab(100)
     trainL = gen_train_lab(300)
     trainL = elim(trainL)
-    print(trainL)
+    testD = gen_test_data(90)
+    testL = gen_test_lab(90)
+    # print(trainL)
     pred = naive_bayes(data, testD, trainL)
-    print(naive_bayes(data, testD, trainL))
-    print(testL)
-    print(success_rate(pred, testL))
+    # print(naive_bayes(data, testD, trainL))
+    # print(testL)
+    print(f"The percent accuracy = {success_rate(pred, testL)} %")
+    #print(success_rate(pred, testL))
 
     # data = [[3.393533211, 2.331273381, 0],
     #         [3.110073483, 1.781539638, 0],
