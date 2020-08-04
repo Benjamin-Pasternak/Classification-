@@ -75,10 +75,11 @@ def predict(summaries, row):
     probabilities = calculate_class_probabilities(summaries, row)
     best_label, best_prob = None, -1
     cl = 0
-    for i in data:
+    for i in probabilities:
         if best_label is None or i > best_prob:
             best_prob = i
-            best_label = i
+            best_label = cl
+        cl += 1
     return best_label
 
 
@@ -109,7 +110,8 @@ if __name__ == '__main__':
     dat = sumarize_class(data)
     #print(dat)
     probabilities = calculate_class_probabilities(dat, data[0])
-    pred = predict(probabilities,data[0])
+    pred = predict(dat, data[0])
+    print(pred)
     # for i in range(len(data)):
     #     print(data[i])
 
