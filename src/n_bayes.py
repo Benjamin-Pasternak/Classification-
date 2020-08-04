@@ -1,4 +1,6 @@
 from parser import generate_datas
+from parser import gen_test_data
+from parser import gen_test_lab
 # from Util import *
 from operator import itemgetter
 import statistics as stat
@@ -93,7 +95,10 @@ def naive_bayes(train, test):
     return (predictions)
 
 if __name__ == '__main__':
-    data = generate_datas(20)
+    data = generate_datas(100)
+    testD = gen_test_data(10)
+    testL = gen_test_lab(10)
+
     # data = [[3.393533211, 2.331273381, 0],
     #         [3.110073483, 1.781539638, 0],
     #         [1.343808831, 3.368360954, 0],
@@ -106,12 +111,15 @@ if __name__ == '__main__':
     #         [7.939820817, 0.791637231, 1]]
 
     # print(data)
-    data = split_data_by_class(data)
-    dat = sumarize_class(data)
+    # data = split_data_by_class(data)
+    # dat = sumarize_class(data)
     #print(dat)
-    probabilities = calculate_class_probabilities(dat, data[0])
-    pred = predict(dat, data[0])
-    print(pred)
+    #probabilities = calculate_class_probabilities(dat, data[0])
+    # pred = predict(dat, data[0])
+    # print(pred)
+    #print(testD)
+    print(naive_bayes(data, testD))
+    print(testL)
     # for i in range(len(data)):
     #     print(data[i])
 

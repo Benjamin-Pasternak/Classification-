@@ -100,6 +100,7 @@ def generate_datas(n):
     items = loadDataFile("./data/digitdata/trainingimages", n, 28, 28)
     lab = loadLabelsFile("./data/digitdata/traininglabels", n)
 
+
     # there's probably a better way of doing this with a dataframe pandas
     data_for_pro = []
     for i in range(len(lab)):
@@ -109,6 +110,20 @@ def generate_datas(n):
         data_for_pro.append(temp)
 
     return data_for_pro
+
+def gen_test_data(n):
+    items = loadDataFile("./data/digitdata/testimages", n, 28, 28)
+    data_for_pro = []
+    for i in range(len(items)):
+        temp = easy_features(items[i].data)
+        data_for_pro.append(temp)
+    return data_for_pro
+
+def gen_test_lab(n):
+    item = loadLabelsFile("./data/digitdata/traininglabels", n)
+    return item
+
+
 
 
 
