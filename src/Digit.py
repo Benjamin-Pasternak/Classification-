@@ -185,4 +185,5 @@ def easy_features(data):
             if data[x][y] == 2:
                 two_in_x[x] += 1
                 two_in_y[y] += 1
+    #print(len(one_in_x + two_in_x + one_in_y + two_in_y))
     return one_in_x + two_in_x + one_in_y + two_in_y

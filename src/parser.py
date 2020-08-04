@@ -120,8 +120,12 @@ def gen_test_data(n):
     return data_for_pro
 
 def gen_test_lab(n):
+    item = loadLabelsFile("./data/digitdata/testlabels", n)
+    return item
+def gen_train_lab(n):
     item = loadLabelsFile("./data/digitdata/traininglabels", n)
     return item
+
 
 
 
@@ -138,7 +142,7 @@ if __name__ == "__main__":
         temp.append(lab[i])
         data_for_pro.append(temp)
 
-    print(data_for_pro[0])
+    #print(data_for_pro[0])
     # ret = sliding_pixle(items[1].data)
     # print(ret)
     # items[1].data = convert_data_numeric(items[1].data)
