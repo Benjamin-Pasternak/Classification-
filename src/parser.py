@@ -39,6 +39,8 @@ def loadDataFile(filename, n, width, height):
     DATUM_HEIGHT = height
     fin = read_lines(filename)
     fin.reverse()
+    x = fin[0]
+    y = len(x)
     items = []
     for i in range(n):
         data = []
@@ -96,9 +98,13 @@ def loadLabelsFile(filename, n):
 
     return labels
 
-def generate_datas(n):
-    items = loadDataFile("./data/digitdata/trainingimages", n, 28, 28)
-    lab = loadLabelsFile("./data/digitdata/traininglabels", n)
+def generate_datas(n, face):
+    if not face:
+        items = loadDataFile("./data/digitdata/trainingimages", n, 28, 28)
+        lab = loadLabelsFile("./data/digitdata/traininglabels", n)
+    else:
+        items = loadDataFile("./data/facedata/facedatatrain", n, 60, 69)
+        lab = loadLabelsFile("./data/facedata/facedatatrainlabels", n)
 
 
     # there's probably a better way of doing this with a dataframe pandas
@@ -112,8 +118,13 @@ def generate_datas(n):
 
     return data_for_pro
 
-def gen_test_data(n):
-    items = loadDataFile("./data/digitdata/testimages", n, 28, 28)
+def gen_test_data(n, face):
+    if not face:
+        items = loadDataFile("./data/digitdata/testimages", n, 28, 28)
+    else:
+        items = loadDataFile("./data/facedata/facedatatest", n, 60, 69)
+
+
     data_for_pro = []
     for i in range(len(items)):
         temp = easy_features(items[i].data)
@@ -121,12 +132,20 @@ def gen_test_data(n):
         data_for_pro.append(temp)
     return data_for_pro
 
-def gen_test_lab(n):
-    item = loadLabelsFile("./data/digitdata/testlabels", n)
+def gen_test_lab(n, face):
+    if not face:
+        item = loadLabelsFile("./data/digitdata/testlabels", n)
+    else:
+        item = loadLabelsFile("./data/facedata/facedatatestlabels", n)
     return item
-def gen_train_lab(n):
-    item = loadLabelsFile("./data/digitdata/traininglabels", n)
+
+def gen_train_lab(n, face):
+    if not face:
+        item = loadLabelsFile("./data/digitdata/traininglabels", n)
+    else:
+        item = loadLabelsFile("./data/facedata/facedatatrainlabels", n)
     return item
+
 
 
 
