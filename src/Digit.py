@@ -50,14 +50,6 @@ def sliding_pixle(data):
     # transition counters, might need to implement in a different function, tv stands for transition valley
     # tp stand for transition peak, there will be 4 2 for each side. These will count number of absolute
     # minimum/maximum appear within the image
-    # tv_left = 0
-    # tv_right = 0
-    # tp_left = 0
-    # tp_right = 0
-    # rmax = []
-    # rmin = []
-    # lmax = []
-    # lmin = []
     transitions = 0
 
     # upper and lower count the number of relevent points in the upper and lower half of the image respectivly
@@ -114,64 +106,8 @@ def sliding_pixle(data):
     lower_density = lowerhalf / 748
 
     return [upperhalf, lowerhalf, upper_density, lower_density, num0, num1, num2, transitions]  # , center_upper,
-    # center_lower]
 
-    # upper half
-
-    #
-    # uppermost = []
-    # lowermost = []
-    # # leftmost = []
-    # # rightmost = []
-    # allpoints = []
-    # num0 = 0
-    # num1 = 0
-    # num2 = 0
-    # # we want to count the number of 0-1or2 transitions
-    # transitions = 0
-    # for i in range(28):
-    #     for j in range(28):
-    #
-    #         """
-    #         fills upperhalf and lowerhalf respectivly with points so that i
-    #         can do density calc probably make it so that
-    #         """
-    #         if i<=13 and (data[i][j] is '1' or data[i][j] is '2'):
-    #             upperhalf+=1
-    #             #upperhalf.append((i, j))
-    #         elif i > 13 and (data[i][j] is '1' or data[i][j] is '2'):
-    #             lowerhalf+=1
-    #             #lowerhalf.append((i, j))
-    #
-    #         """
-    #         uppermost stores a tuple (i, j) so uppermost[1] stores j gets the uppermost
-    #         pixle and lower most pixle
-    #         """
-    #         if i < uppermost[1] and (data[i][j] is '1' or data[i][j] is '2'):
-    #             uppermost = data[i][j]
-    #         if i > lowermost[1] and (data[i][j] is '1' or data[i][j] is '2'):
-    #             lowermost = data[i][j]
-    #
-    #         """
-    #         counts the number of 1s 2s and 0s respectivly
-    #         """
-    #         if data[i][j] is '1':
-    #             num1+=1
-    #         elif data[i][j] is '2':
-    #             num2+=1
-    #         elif data[i][j] is '0':
-    #             num0+=1
-    #
-    #         """
-    #         this adds to a list of all points that are not 0
-    #         """
-    #         if data[i][j] is '1' or data[i][j] is '2':
-    #             allpoints.append(data[i][j])
-    #
-    #
-    # return [upperhalf, lowerhalf, lowermost, uppermost, num0, num1, num2, allpoints]
-
-
+# finds number of ones and twos in each row/col kind of
 def easy_features(data):
     one_in_x = [0] * len(data)
     two_in_x = [0] * len(data)
@@ -188,7 +124,7 @@ def easy_features(data):
     # print(len(one_in_x + two_in_x + one_in_y + two_in_y))
     return one_in_x + two_in_x + one_in_y + two_in_y
 
-
+# finds number of ones/twoes in each diagonal going top left down to bottom right
 def other_features(data):
     n_1_diagonal = []
 
