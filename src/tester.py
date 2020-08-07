@@ -3,7 +3,7 @@ from src import parser
 
 total_training = 5000
 
-data = parser.generate_datas(int(total_training * 0.1))
+data = parser.generate_datas(int(total_training * 0.9))
 
 train_perc = Perceptron(data, len(data[0]) - 1, 10)  # -1 to get rid of label
 train_perc.init_weights()
@@ -23,3 +23,5 @@ for i in range(total_digit_testing):
         hit += 1
 print("Accuracy", hit / total_digit_testing)
 # 0.494, 0.558, 0.684, 0.588, 0.723, 0.727, 0.636, 0.646, 0.584, 0.687
+# with other features
+# 0.462, 0.490, 0.565, 0.678, 0.564, 0.658, 0.642, 0.476, 0.459, 0.554
