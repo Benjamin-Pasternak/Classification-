@@ -127,6 +127,18 @@ def easy_features(data):
     return one_in_x + two_in_x + one_in_y + two_in_y
 
 
+def easy_face_features(data):
+    two_in_x = [0] * len(data)
+    two_in_y = [0] * len(data[0])
+    for x in range(len(data)):
+        for y in range(len(data[0])):
+            if data[x][y] == 2:
+                two_in_x[x] += 1
+                two_in_y[y] += 1
+    # print(len(one_in_x + two_in_x + one_in_y + two_in_y))
+    return two_in_x + two_in_y
+
+
 # finds number of ones/twoes in each diagonal going top left down to bottom right
 def other_features(data):
     n_1_diagonal = []

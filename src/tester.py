@@ -1,27 +1,35 @@
 from src.perceptron import Perceptron
 from src import parser
 
-total_training = 5000
+total_digit_training = 5000
+total_face_training = 451
+# face image dimension 60*70
+data = parser.generate_datas(int(total_face_training * 0.2), True)
 
-data = parser.generate_datas(int(total_training * 0.9))
-
-train_perc = Perceptron(data, len(data[0]) - 1, 10)  # -1 to get rid of label
-train_perc.init_weights()
+train_perc = Perceptron(data, len(data[0]) - 1, 2)  # -1 to get rid of label
+print(data[-1])
+print(train_perc.features)
+print(len(train_perc.weights))
+print(len(train_perc.weights[-1]))
+print(data[56])
+print(len(data[56]))
+input()
 for i in range(1):
     print("Running training", i)
     trained_perc = train_perc.update_w()
-    # print(trained_perc)
 
 total_digit_testing = 1000
+total_face_testing = 150
 
-test_items = parser.loadDataFile("./data/digitdata/trainingimages", total_digit_testing, 28, 28)
-test_lab = parser.loadLabelsFile("./data/digitdata/traininglabels", total_digit_testing)
+test_items = parser.loadDataFile("./data/facedata/facedatatest", total_face_testing, 60, 70)
+test_lab = parser.loadLabelsFile("./data/facedata/facedatatestlabels", total_face_testing)
 hit = 0
-for i in range(total_digit_testing):
+for i in range(total_face_testing):
     result = train_perc.estimate_class(test_items[i])
     if result == test_lab[i]:
         hit += 1
-print("Accuracy", hit / total_digit_testing)
-# 0.494, 0.558, 0.684, 0.588, 0.723, 0.727, 0.636, 0.646, 0.584, 0.687
-# with other features
-# 0.462, 0.490, 0.565, 0.678, 0.564, 0.658, 0.642, 0.476, 0.459, 0.554
+print("Accuracy", hit / total_face_testing)
+# digit easy feature only
+# 0.422 0.469 0.588 0.512 0.622 0.619 0.590 0.593 0.550 0.627
+# digit easy & other feature
+# 0.438 0.358 0.382 0.474 0.463 0.464 0.551 0.428 0.402 0.538

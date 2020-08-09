@@ -20,7 +20,9 @@ class Perceptron:
 
     def update_w(self):
         miss = 0
+        count = -1
         for x in self.data:
+            count += 1
             phi = x[0:self.features]
             phi.insert(0, 1)
             label = x[-1]
@@ -36,6 +38,8 @@ class Perceptron:
                 continue
             miss += 1
             for j in range(self.features + 1):
+                print(count)
+                print(label, plabel, j, len(phi))
                 self.weights[label][j] += phi[j]
                 self.weights[plabel][j] -= phi[j]
 
