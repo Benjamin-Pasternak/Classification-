@@ -130,6 +130,7 @@ def generate_datas(n, face):
             #temp.extend(feature4(items[i].data))
             #temp.extend(feature5(items[i].data))
             #temp.extend(advancedFeaturesExtract(items[i].data))
+            x = islands_and_size(items[i].data)
             temp.extend(islands_and_size(items[i].data))
         temp.append(lab[i])
         data_for_pro.append(temp)
@@ -153,6 +154,7 @@ def gen_test_data(n, face):
             #temp.extend(feature4(items[i].data))
             #temp.extend(feature5(items[i].data))
             #temp.extend(advancedFeaturesExtract(items[i].data))
+            x = islands_and_size(items[i].data)
             temp.extend(islands_and_size(items[i].data))
         data_for_pro.append(temp)
     return data_for_pro

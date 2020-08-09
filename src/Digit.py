@@ -212,7 +212,7 @@ def islands_and_size(data):
     trues = 0
     for i in range(len(data)):
         for j in range(len(data[0])):
-            if visited[i][j] == False and data[i][j] == 1:
+            if visited[i][j] == False and data[i][j] == 2:
                 dfs(data, i, j, visited)
                 count = count_trues(visited)
                 trues = count - trues
