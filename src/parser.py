@@ -122,16 +122,16 @@ def generate_datas(n, face):
     data_for_pro = []
     for i in range(len(lab)):
         # temp = sliding_pixle(items[i].data)
-        temp = easy_features(items[i].data)
+        #temp = easy_features(items[i].data)
+        temp = feature5(items[i].data)
         #temp.extend(other_features(items[i].data))
-        if face:
+        #if face:
             #temp.extend(sliding_pixle(items[i].data))
             #temp.extend(feature3(items[i].data))
             #temp.extend(feature4(items[i].data))
             #temp.extend(feature5(items[i].data))
             #temp.extend(advancedFeaturesExtract(items[i].data))
-            x = islands_and_size(items[i].data)
-            temp.extend(islands_and_size(items[i].data))
+            #temp.extend(islands_and_size(items[i].data))
         temp.append(lab[i])
         data_for_pro.append(temp)
 
@@ -141,21 +141,21 @@ def gen_test_data(n, face):
     if not face:
         items = loadDataFile("./data/digitdata/testimages", n, 28, 28, face)
     else:
-        items = loadDataFile("./data/facedata/facedatatest", n, 62, 69, face)
+        items = loadDataFile("./data/facedata/facedatatest", n, 60, 70, face)
 
 
     data_for_pro = []
     for i in range(len(items)):
-        temp = easy_features(items[i].data)
+        #temp = easy_features(items[i].data)
+        temp = feature5(items[i].data)
         #temp.extend(other_features(items[i].data))
-        if face:
+        #if face:
             #temp.extend(sliding_pixle(items[i].data))
             #temp.extend(feature3(items[i].data))
             #temp.extend(feature4(items[i].data))
             #temp.extend(feature5(items[i].data))
             #temp.extend(advancedFeaturesExtract(items[i].data))
-            x = islands_and_size(items[i].data)
-            temp.extend(islands_and_size(items[i].data))
+            #temp.extend(islands_and_size(items[i].data))
         data_for_pro.append(temp)
     return data_for_pro
 
@@ -180,15 +180,21 @@ def gen_train_lab(n, face):
 
 
 if __name__ == "__main__":
-    items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
-    lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
+    items = loadDataFile("./data/facedata/facedatatest", 2, 60, 70, True)
+    lab = loadLabelsFile("./data/facedata/facedatatestlabels", 2)
 
-    # there's probably a better way of doing this with a dataframe pandas
-    data_for_pro = []
-    for i in range(len(lab)):
-        temp = easy_features(items[i].data)
-        temp.append(lab[i])
-        data_for_pro.append(temp)
+    fet = feature6(items[0].data)
+    #fet2 = islands_and_size(items[1].data)
+    print(len(fet))
+    # items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
+    # lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
+
+    # # there's probably a better way of doing this with a dataframe pandas
+    # data_for_pro = []
+    # for i in range(len(lab)):
+    #     temp = easy_features(items[i].data)
+    #     temp.append(lab[i])
+    #     data_for_pro.append(temp)
 
     #print(data_for_pro[0])
     # ret = sliding_pixle(items[1].data)
