@@ -1,6 +1,7 @@
 import numpy as np
 from sys import exit
 import os
+from numba import njit
 
 """
 1. average number of non-zero pixels
@@ -86,26 +87,27 @@ def sliding_pixle(data):
                 zero = True
                 transitions += 1
 
-    xs = 0
-    ys = 0
-    for i in range(len(upper_l)):
-        xs += upper_l[i][0]
-        ys += upper_l[i][1]
+    # xs = 0
+    # ys = 0
+    # for i in range(len(upper_l)):
+    #     xs += upper_l[i][0]
+    #     ys += upper_l[i][1]
+    #
+    # center_upper = [xs / len(upper_l), ys / len(upper_l)]
+    #
+    # xs = 0
+    # ys = 0
+    # for i in range(len(lower_l)):
+    #     xs += lower_l[i][0]
+    #     ys += lower_l[i][1]
+    #
+    # center_lower = [xs / len(lower_l), ys / len(lower_l)]
+    #
+    # upper_density = upperhalf / 748
+    # lower_density = lowerhalf / 748
 
-    center_upper = [xs / len(upper_l), ys / len(upper_l)]
+    return [upperhalf, lowerhalf, num0, num1, num2, transitions]  # , center_upper,
 
-    xs = 0
-    ys = 0
-    for i in range(len(lower_l)):
-        xs += lower_l[i][0]
-        ys += lower_l[i][1]
-
-    center_lower = [xs / len(lower_l), ys / len(lower_l)]
-
-    upper_density = upperhalf / 748
-    lower_density = lowerhalf / 748
-
-    return [upperhalf, lowerhalf, upper_density, lower_density, num0, num1, num2, transitions]  # , center_upper,
 
 # finds number of ones and twos in each row/col kind of
 def easy_features(data):
@@ -123,6 +125,7 @@ def easy_features(data):
                 two_in_y[y] += 1
     # print(len(one_in_x + two_in_x + one_in_y + two_in_y))
     return one_in_x + two_in_x + one_in_y + two_in_y
+
 
 # finds number of ones/twoes in each diagonal going top left down to bottom right
 def other_features(data):
@@ -154,7 +157,117 @@ def other_features(data):
     return n_1_diagonal
 
 
-# def feature3(data):
+# find ratio between left and right
+# find number of things
+def feature3(data):
+    every3 = []
+    x = len(data)
+    y = len(data[0])
+    for i in range(len(data)):
+        ct = 0
+        for j in range(20):
+            sum = 0
+            for k in range(3):
+                sum += data[i][ct]
+                ct += 1
+            every3.append(sum)
+
+    return every3
 
 
+@njit
+def feature4(data):
+    l = []
+    for i in range(len(data[0])):
+        count = 0
+        for j in range(len(data) // 3):
+            sums = 0
+            for k in range(3):
+                sums += data[count][i]
+                count += 1
+            l.append(sums)
 
+    return l[1:]
+
+
+def feature5(data):
+    ret = [0]
+    for i in range(len(data)):
+        for j in range(len(data[0])):
+            if data[i][j] == 2:
+                # print('soop')
+                ret.append(1)
+            else:
+                ret.append(0)
+    y = ret[1:]
+    # print('poof')
+    return ret[1:]
+
+
+def islands_and_size(data):
+    """all cells are initially unvisited"""
+    visited = [[False for j in range(len(data[0]))] for i in range(len(data))]
+    counters = []
+    count = 0
+    trues = 0
+    for i in range(len(data)):
+        for j in range(len(data[0])):
+            if visited[i][j] == False and data[i][j] == 1:
+                dfs(data, i, j, visited)
+                count = count_trues(visited)
+                trues = count - trues
+                counters.append(trues)
+                trues = count
+                count += 1
+    return counters
+
+def count_trues(visited):
+    trues = 0
+    for i in range(len(visited)):
+        for j in range(len(visited[0])):
+            if visited[i][j] == True:
+                trues += 1
+    return trues
+
+def is_valid(data, i, j, visited):
+    return (0 <= i < len(data) and
+            0 <= j < len(data[0]) and
+            not visited[i][j] and data[i][j])
+
+
+def dfs(data, i, j, visited):
+    rowNbr = [-1, -1, -1, 0, 0, 1, 1, 1]
+    colNbr = [-1, 0, 1, -1, 1, -1, 0, 1]
+    visited[i][j] = True
+    for k in range(8):
+        if is_valid(data, i + rowNbr[k], j + colNbr[k], visited):
+            dfs(data, i + rowNbr[k], j + colNbr[k], visited)
+
+    # right = 0
+    # left = 0
+    # count = 0
+    # count2 = 0
+    # for i in range(len(data)):
+    #     for j in range(len(data[0])):
+    #         if j > len(data[0]) // 2:
+    #             left += 1
+    #         else:
+    #             right += 1
+    #
+    #         if 24 <= i <= 40 and 16 <= j <= 41:
+    #             count += 1
+    #         else:
+    #             count2 += 1
+    #
+    # return [right / left, left / right, left, right, count, count2, count / count2, count2 / count]
+
+
+if __name__ == "__main__":
+    data = [[1, 1, 0, 0, 0],
+            [0, 1, 0, 0, 1],
+            [1, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0],
+            [1, 0, 1, 0, 1]]
+
+    s = islands_and_size(data)
+    print(s)
