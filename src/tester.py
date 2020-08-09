@@ -3,17 +3,11 @@ from src import parser
 
 total_digit_training = 5000
 total_face_training = 451
+# digit image dimension 28*28
 # face image dimension 60*70
-data = parser.generate_datas(int(total_face_training * 0.2), True)
+data = parser.generate_datas(int(total_face_training * 1), True)
 
 train_perc = Perceptron(data, len(data[0]) - 1, 2)  # -1 to get rid of label
-print(data[-1])
-print(train_perc.features)
-print(len(train_perc.weights))
-print(len(train_perc.weights[-1]))
-print(data[56])
-print(len(data[56]))
-input()
 for i in range(1):
     print("Running training", i)
     trained_perc = train_perc.update_w()
@@ -25,7 +19,7 @@ test_items = parser.loadDataFile("./data/facedata/facedatatest", total_face_test
 test_lab = parser.loadLabelsFile("./data/facedata/facedatatestlabels", total_face_testing)
 hit = 0
 for i in range(total_face_testing):
-    result = train_perc.estimate_class(test_items[i])
+    result = train_perc.estimate_class(test_items[i], True)
     if result == test_lab[i]:
         hit += 1
 print("Accuracy", hit / total_face_testing)

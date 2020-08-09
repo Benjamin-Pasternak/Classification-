@@ -1,5 +1,6 @@
 from random import uniform
-from src.Digit import easy_features
+from src.Digit import *
+from src.feature import advancedFeaturesExtract
 
 
 class Perceptron:
@@ -38,16 +39,20 @@ class Perceptron:
                 continue
             miss += 1
             for j in range(self.features + 1):
-                print(count)
-                print(label, plabel, j, len(phi))
                 self.weights[label][j] += phi[j]
                 self.weights[plabel][j] -= phi[j]
 
         print("Error", miss)
         return self.weights
 
-    def estimate_class(self, test_item):
-        phi = easy_features(test_item.data)
+    def estimate_class(self, test_item, face=False):
+        if face:
+            phi = easy_face_features(test_item.data)
+            phi.extend(easy_face_features_dlc1(test_item.data))
+            # phi.extend(pixel_face(test_item.data))
+            # phi.extend(advancedFeaturesExtract(test_item.data))
+        else:
+            phi = easy_features(test_item.data)
         phi.insert(0, 1)
         f = []
         for num in range(self.label):

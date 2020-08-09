@@ -124,17 +124,17 @@ def generate_datas(n, face=False):
         # temp = sliding_pixle(items[i].data)
         if face:
             temp = easy_face_features(items[i].data)
-        else:
-            temp = easy_features(items[i].data)
-            temp.extend(other_features(items[i].data))
-        if face:
+            temp.extend(easy_face_features_dlc1(items[i].data))
+            # temp.extend(pixel_face(items[i].data))
             # temp.extend(sliding_pixle(items[i].data))
             # temp.extend(feature3(items[i].data))
             # temp.extend(feature4(items[i].data))
             # temp.extend(feature5(items[i].data))
             # temp.extend(advancedFeaturesExtract(items[i].data))
-            # x = islands_and_size(items[i].data)
-            temp.extend(islands_and_size(items[i].data))
+            # temp.extend(islands_and_size(items[i].data))
+        else:
+            temp = easy_features(items[i].data)
+            temp.extend(other_features(items[i].data))
         temp.append(lab[i])
         data_for_pro.append(temp)
 
