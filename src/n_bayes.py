@@ -135,7 +135,7 @@ def adjust_len(summarize):
         to_add = max - len(summarize[i])
         if to_add != 0:
             for j in range(to_add):
-                summarize[i].append(0)
+                summarize[i].append(summarize[i][0])
     return summarize
 
 
