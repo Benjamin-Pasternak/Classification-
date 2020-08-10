@@ -158,9 +158,10 @@ def success_rate(preds, actual):
     for i in range(len(preds)):
         if preds[i] == actual[i]:
             correct += 1
-    return (correct / len(preds)) * 100
+    print(correct, len(preds))
+    return correct / len(preds)
 
 
 if __name__ == '__main__':
-    bayes = naive_bayes(450, 100, True)
-    print(f"The percent accuracy = {success_rate(bayes.pred, bayes.testL)} %")
+    bayes = naive_bayes(451, 150, True)
+    print(f"The percent accuracy = {success_rate(bayes.pred, bayes.testL)}")

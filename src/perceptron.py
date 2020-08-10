@@ -42,23 +42,18 @@ class Perceptron:
                 self.weights[label][j] += phi[j]
                 self.weights[plabel][j] -= phi[j]
 
-        print("Error", miss)
-        return self.weights
-
-    def estimate_class(self, test_item, face=False):
-        if face:
-            phi = easy_face_features(test_item.data)
-            phi.extend(easy_face_features_dlc1(test_item.data))
-            # phi.extend(pixel_face(test_item.data))
-            # phi.extend(advancedFeaturesExtract(test_item.data))
-        else:
-            phi = easy_features(test_item.data)
-        phi.insert(0, 1)
-        f = []
-        for num in range(self.label):
-            f.append(sum(p * w for p, w in zip(phi, self.weights[num])))
-        # print("Test result", f.index(max(f)), "key", test_label)
-        return f.index(max(f))
+    def estimate_class(self, test_item, test_label, face=False):
+        hit = 0
+        for i in range(len(test_item)):
+            phi = test_item[i]
+            phi.insert(0, 1)
+            f = []
+            for num in range(self.label):
+                f.append(sum(p * w for p, w in zip(phi, self.weights[num])))
+            plabel = f.index(max(f))
+            if plabel == test_label[i]:
+                hit += 1
+        return hit/len(test_item)
 
 
 if __name__ == "__main__":

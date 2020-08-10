@@ -76,14 +76,10 @@ def convert_data_numeric(data, face):
             for j in range(28):
                 ret[i][j] = ascii_to_digit(data[i][j])
     else:
-        #ret = np.arange(4278).reshape((62, 69))
         ret = np.arange(4200).reshape((70, 60))
-        #c = 0
         for i in range(70):
             for j in range(60):
                 ret[i][j] = ascii_to_digit(data[i][j])
-                # c+=1
-                # print(c)
     return ret
 
 
@@ -124,7 +120,7 @@ def generate_datas(n, face=False):
         # temp = sliding_pixle(items[i].data)
         if face:
             temp = easy_face_features(items[i].data)
-            temp.extend(easy_face_features_dlc1(items[i].data))
+            # temp.extend(easy_face_features_dlc1(items[i].data))
             temp.extend(feature5(items[i].data))
             # temp.extend(pixel_face(items[i].data))
             # temp.extend(sliding_pixle(items[i].data))
@@ -144,32 +140,33 @@ def generate_datas(n, face=False):
 
 def gen_test_data(n, face=False):
     if not face:
-        items = loadDataFile("./data/digitdata/testimages", n, 28, 28, face)
+        items = loadDataFile("./data/digitdata/testimages", 1000, 28, 28, face)
     else:
-        items = loadDataFile("./data/facedata/facedatatest", n, 60, 70, face)
+        items = loadDataFile("./data/facedata/facedatatest", 150, 60, 70, face)
 
     data_for_pro = []
     for i in range(len(items)):
-        # temp = easy_features(items[i].data)
-        temp = feature5(items[i].data)
-        # temp.extend(other_features(items[i].data))
         if face:
+            temp = easy_face_features(items[i].data)
+            temp.extend(feature5(items[i].data))
             # temp.extend(sliding_pixle(items[i].data))
             # temp.extend(feature3(items[i].data))
             # temp.extend(feature4(items[i].data))
             # temp.extend(feature5(items[i].data))
             # temp.extend(advancedFeaturesExtract(items[i].data))
-            x = islands_and_size(items[i].data)
-            temp.extend(islands_and_size(items[i].data))
+            # temp.extend(islands_and_size(items[i].data))
+        else:
+            temp = easy_features(items[i].data)
+            temp.extend(other_features(items[i].data))
         data_for_pro.append(temp)
     return data_for_pro
 
 
 def gen_test_lab(n, face=False):
     if not face:
-        item = loadLabelsFile("./data/digitdata/testlabels", n)
+        item = loadLabelsFile("./data/digitdata/testlabels", 1000)
     else:
-        item = loadLabelsFile("./data/facedata/facedatatestlabels", n)
+        item = loadLabelsFile("./data/facedata/facedatatestlabels", 150)
     return item
 
 

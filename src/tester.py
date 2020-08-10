@@ -1,29 +1,39 @@
 from src.perceptron import Perceptron
-from src import parser
+from src.parser import *
+from random import randrange
+from statistics import mean, pstdev
 
-total_digit_training = 5000
-total_face_training = 451
+face = False
+if face:
+    class_num = 2
+    total_training = 451
+    total_testing = 150
+else:
+    class_num = 10
+    total_training = 5000
+    total_testing = 1000
+
 # digit image dimension 28*28
 # face image dimension 60*70
-data = parser.generate_datas(int(total_face_training * 1), True)
+all_data = generate_datas(int(total_training), face)
+testing_data = gen_test_data(total_testing, face)
+testing_lab = gen_test_lab(total_testing, face)
+print("Initialized...")
+parts = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+for part in parts:
+    accs = []
+    for i in range(5):
+        if part == 1:
+            start = 0
+        else:
+            start = randrange(total_training - int(total_training * part))
+        training_data = all_data[start:int(start + total_training * part)]
 
-train_perc = Perceptron(data, len(data[0]) - 1, 2)  # -1 to get rid of label
-for i in range(1):
-    print("Running training", i)
-    trained_perc = train_perc.update_w()
+        train_perc = Perceptron(training_data, len(training_data[0]) - 1, class_num)  # -1 to get rid of label
+        train_perc.init_weights()
+        train_perc.update_w()
 
-total_digit_testing = 1000
-total_face_testing = 150
-
-test_items = parser.loadDataFile("./data/facedata/facedatatest", total_face_testing, 60, 70)
-test_lab = parser.loadLabelsFile("./data/facedata/facedatatestlabels", total_face_testing)
-hit = 0
-for i in range(total_face_testing):
-    result = train_perc.estimate_class(test_items[i], True)
-    if result == test_lab[i]:
-        hit += 1
-print("Accuracy", hit / total_face_testing)
-# digit easy feature only
-# 0.422 0.469 0.588 0.512 0.622 0.619 0.590 0.593 0.550 0.627
-# digit easy & other feature
-# 0.438 0.358 0.382 0.474 0.463 0.464 0.551 0.428 0.402 0.538
+        acc = train_perc.estimate_class(testing_data, testing_lab, face)
+        accs.append(acc)
+    print("Accuracy for", part, accs)
+    print(mean(accs), pstdev(accs))
