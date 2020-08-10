@@ -125,6 +125,7 @@ def generate_datas(n, face=False):
         if face:
             temp = easy_face_features(items[i].data)
             temp.extend(easy_face_features_dlc1(items[i].data))
+            temp.extend(feature5(items[i].data))
             # temp.extend(pixel_face(items[i].data))
             # temp.extend(sliding_pixle(items[i].data))
             # temp.extend(feature3(items[i].data))
@@ -149,7 +150,8 @@ def gen_test_data(n, face=False):
 
     data_for_pro = []
     for i in range(len(items)):
-        temp = easy_features(items[i].data)
+        # temp = easy_features(items[i].data)
+        temp = feature5(items[i].data)
         # temp.extend(other_features(items[i].data))
         if face:
             # temp.extend(sliding_pixle(items[i].data))
@@ -180,15 +182,21 @@ def gen_train_lab(n, face=False):
 
 
 if __name__ == "__main__":
-    items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
-    lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
+    items = loadDataFile("./data/facedata/facedatatest", 2, 60, 70, True)
+    lab = loadLabelsFile("./data/facedata/facedatatestlabels", 2)
 
-    # there's probably a better way of doing this with a dataframe pandas
-    data_for_pro = []
-    for i in range(len(lab)):
-        temp = easy_features(items[i].data)
-        temp.append(lab[i])
-        data_for_pro.append(temp)
+    fet = feature6(items[0].data)
+    #fet2 = islands_and_size(items[1].data)
+    print(len(fet))
+    # items = loadDataFile("./data/digitdata/trainingimages", 2, 28, 28)
+    # lab = loadLabelsFile("./data/digitdata/traininglabels", 2)
+
+    # # there's probably a better way of doing this with a dataframe pandas
+    # data_for_pro = []
+    # for i in range(len(lab)):
+    #     temp = easy_features(items[i].data)
+    #     temp.append(lab[i])
+    #     data_for_pro.append(temp)
 
     #print(data_for_pro[0])
     # ret = sliding_pixle(items[1].data)

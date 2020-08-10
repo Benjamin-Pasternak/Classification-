@@ -60,8 +60,8 @@ def sliding_pixle(data):
 
     one = False
     zero = True
-    for i in range(28):
-        for j in range(28):
+    for i in range(len(data)):
+        for j in range(len(data[0])):
 
             # this guy fills upper half and lowerhalf and also upper_l and lower_l
             if i <= 13 and (data[i][j] == 1 or data[i][j] == 2):
@@ -232,22 +232,56 @@ def feature5(data):
     return ret[1:]
 
 
+def feature6(data):
+    data = np.asarray(data)
+    slicer = []
+    i, j = 4, 4
+    while i <= len(data):
+        while j <= len(data[0]):
+            temp = data[i - 5:i][j - 5:j]
+            for x in range(5):
+                for y in range(5):
+                    if temp[x][y] > 0:
+                        slicer.append(1)
+                    else:
+                        slicer.append(0)
+            j += 5
+        i += 5
+    return slicer
+
+
+
+
+
+
+
+
+
 def islands_and_size(data):
     """all cells are initially unvisited"""
     visited = [[False for j in range(len(data[0]))] for i in range(len(data))]
+    visited2 = [[0 for j in range(len(data[0]))] for i in range(len(data))]
     counters = []
-    count = 0
+    countz = 1
     trues = 0
     for i in range(len(data)):
         for j in range(len(data[0])):
             if visited[i][j] == False and data[i][j] == 2:
-                dfs(data, i, j, visited)
+                dfs(data, i, j, visited, visited2, countz)
+                countz += 1
                 count = count_trues(visited)
+                # poofer.append(visited)
                 trues = count - trues
                 counters.append(trues)
                 trues = count
                 count += 1
+
+    # for i in range(len(poofer)):
+    #     print(poofer[i])
+    #     print()
+    # print(visited2)
     return counters
+
 
 def count_trues(visited):
     trues = 0
@@ -257,19 +291,21 @@ def count_trues(visited):
                 trues += 1
     return trues
 
+
 def is_valid(data, i, j, visited):
     return (0 <= i < len(data) and
             0 <= j < len(data[0]) and
             not visited[i][j] and data[i][j])
 
 
-def dfs(data, i, j, visited):
+def dfs(data, i, j, visited, visited2, countz):
     rowNbr = [-1, -1, -1, 0, 0, 1, 1, 1]
     colNbr = [-1, 0, 1, -1, 1, -1, 0, 1]
     visited[i][j] = True
+    visited2[i][j] = countz
     for k in range(8):
         if is_valid(data, i + rowNbr[k], j + colNbr[k], visited):
-            dfs(data, i + rowNbr[k], j + colNbr[k], visited)
+            dfs(data, i + rowNbr[k], j + colNbr[k], visited, visited2, countz)
 
     # right = 0
     # left = 0
@@ -297,5 +333,5 @@ if __name__ == "__main__":
             [0, 0, 0, 0, 0],
             [1, 0, 1, 0, 1]]
 
-    s = islands_and_size(data)
+    s = feature6(data)
     print(s)

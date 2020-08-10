@@ -104,7 +104,7 @@ class naive_bayes:
 
     # Predict the class for a given row
     def predict(self, summaries, row, sim):#, dig):
-        probabilities = self.calculate_class_probabilities(adjust_len(summaries), row)#, dig)
+        probabilities = self.calculate_class_probabilities(summaries, row)#, dig)
         # print(probabilities)
         best_label, best_prob = None, -1
         cl = 0
@@ -137,6 +137,14 @@ def adjust_len(summarize):
             for j in range(to_add):
                 summarize[i].append(summarize[i][0])
     return summarize
+
+def adjust_row(row, n):
+    if len(row) < n:
+        m = n - len(row)
+        for i in range(m):
+            row.append(0)
+    return row
+
 
 
 def elim(t):
