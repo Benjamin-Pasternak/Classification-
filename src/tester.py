@@ -1,9 +1,12 @@
-from src.perceptron import Perceptron
-from src.parser import *
+from perceptron import Perceptron
+from n_bayes import naive_bayes
+from parser import *
 from random import randrange
-from statistics import mean, pstdev
+import timeit
+import tracemalloc
 
-face = False
+
+face = True
 if face:
     class_num = 2
     total_training = 451
@@ -15,25 +18,46 @@ else:
 
 # digit image dimension 28*28
 # face image dimension 60*70
-all_data = generate_datas(int(total_training), face)
+all_data = generate_datas(total_training, face)
+all_label = gen_train_lab(total_training, face)
 testing_data = gen_test_data(total_testing, face)
 testing_lab = gen_test_lab(total_testing, face)
-print("Initialized...")
-parts = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-for part in parts:
-    accs = []
-    for i in range(5):
-        if part == 1:
-            start = 0
-        else:
-            start = randrange(total_training - int(total_training * part))
-        training_data = all_data[start:int(start + total_training * part)]
+# print("Initialized...")
 
-        train_perc = Perceptron(training_data, len(training_data[0]) - 1, class_num)  # -1 to get rid of label
-        train_perc.init_weights()
-        train_perc.update_w()
+part = 1
+# print(part)
+if part == 1:
+    startidx = 0
+else:
+    startidx = randrange(total_training - int(total_training * part))
+training_data = all_data[startidx:int(startidx + total_training * part)]
+training_lab = all_label[startidx:int(startidx + total_training * part)]
 
-        acc = train_perc.estimate_class(testing_data, testing_lab, face)
-        accs.append(acc)
-    print("Accuracy for", part, accs)
-    print(mean(accs), pstdev(accs))
+train_perc = Perceptron(training_data, len(training_data[0]) - 1, class_num)  # -1 to get rid of label
+
+start = timeit.default_timer()
+tracemalloc.start()
+
+train_perc.update_w()
+
+stop = timeit.default_timer()
+memory = tracemalloc.get_traced_memory()
+time = stop - start
+tracemalloc.stop()
+
+train_nbayes = naive_bayes(training_data, training_lab, testing_data, testing_lab)
+
+# print("n_bayes")
+# print('Time Taken: {}s'.format(train_nbayes.time))
+# print(f"Memory usage is {train_nbayes.memory[0] / 10**6}MB; Peak was {train_nbayes.memory[1] / 10**6}MB")
+# print("Accuracy", train_nbayes.success_rate())
+
+acc = train_perc.estimate_class(testing_data, testing_lab)
+
+# print("\nPerceptron")
+# print('Time Taken: {}s'.format(time))
+# print(f"Memory usage is {memory[0] / 10**6}MB; Peak was {memory[1] / 10**6}MB")
+# print("Accuracy", acc)
+# print(f"{acc}\t{format(time)}\t{memory[1] / 10**6}")
+
+print(f"{train_nbayes.success_rate()}\t{format(train_nbayes.time)}\t{train_nbayes.memory[1] / 10**6}\t{acc}\t{format(time)}\t{memory[1] / 10**6}\t")

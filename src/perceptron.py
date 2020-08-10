@@ -1,6 +1,4 @@
 from random import uniform
-from src.Digit import *
-from src.feature import advancedFeaturesExtract
 
 
 class Perceptron:
@@ -42,7 +40,7 @@ class Perceptron:
                 self.weights[label][j] += phi[j]
                 self.weights[plabel][j] -= phi[j]
 
-    def estimate_class(self, test_item, test_label, face=False):
+    def estimate_class(self, test_item, test_label):
         hit = 0
         for i in range(len(test_item)):
             phi = test_item[i]

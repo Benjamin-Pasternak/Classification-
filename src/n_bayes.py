@@ -6,6 +6,8 @@ import statistics as stat
 from math import pi
 from math import sqrt
 from math import exp
+import timeit
+import tracemalloc
 from math import log
 
 
@@ -46,15 +48,16 @@ def sumarize_class(data):#, dig):
 
 class naive_bayes:
 
-    def __init__(self, train_num, test_num, face):
-#        if dig is True:
-        self.data = generate_datas(train_num, face)
-        self.trainL = elim(gen_train_lab(train_num, face))
-        # self.trainL = elim(trainL)
-        self.testD = gen_test_data(test_num, face)
-        self.testL = gen_test_lab(test_num, face)
+    def __init__(self, training_data, training_lab, test_data, test_lab):
+        self.data = training_data
+        self.trainL = elim(training_lab)
+        self.testD = test_data
+        self.testL = test_lab
 
-        self.pred = self.naive_b(self.data, self.testD, self.trainL)#, dig)
+        self.time = None
+        self.memory = None
+
+        self.pred = self.naive_b(self.data, self.testD, self.trainL)
 
     # we will be using the gaussian distribution function for our calculation
     # note, mean = mu, stdev = sigma
@@ -117,12 +120,29 @@ class naive_bayes:
 
     # Naive Bayes Algorithm
     def naive_b(self, train, test, trainL):#, dig):
+
+        start = timeit.default_timer()
+        tracemalloc.start()
+
         summarize = sumarize_class(train)#, dig)
+
+        stop = timeit.default_timer()
+        self.memory = tracemalloc.get_traced_memory()
+        self.time = stop - start
+        tracemalloc.stop()
+
         predictions = list()
         for row in test:
             output = self.predict(summarize, row, trainL)#, dig)
             predictions.append(output)
         return predictions
+
+    def success_rate(self):
+        correct = 0
+        for i in range(len(self.pred)):
+            if self.pred[i] == self.testL[i]:
+                correct += 1
+        return correct / len(self.pred)
 
 
 def adjust_len(summarize):
@@ -153,15 +173,6 @@ def elim(t):
     return t
 
 
-def success_rate(preds, actual):
-    correct = 0
-    for i in range(len(preds)):
-        if preds[i] == actual[i]:
-            correct += 1
-    print(correct, len(preds))
-    return correct / len(preds)
-
-
 if __name__ == '__main__':
-    bayes = naive_bayes(451, 150, True)
+    bayes = naive_bayes(451, 150, False)
     print(f"The percent accuracy = {success_rate(bayes.pred, bayes.testL)}")
